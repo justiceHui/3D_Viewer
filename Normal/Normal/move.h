@@ -21,6 +21,6 @@ void x_rot(VECTOR *a, POS *value, double theta, int x, int y, int z) {
 	}
 	a->arr[a->cnt].x = value->x;
 	a->arr[a->cnt].y = (value->y - M_W / 2)*sin(theta) - (value->z - M_H / 2)*cos(theta) + M_H / 2;
-	a->arr[a->cnt].z = (value->y - M_W / 2)*cos(theta) - (value->z - M_H / 2)*sin(theta) + M_W / 2;
+	a->arr[a->cnt].z = (value->y - M_W / 2)*cos(theta) + (value->z - M_H / 2)*sin(theta) + M_W / 2;
 	a->cnt++;
 }
