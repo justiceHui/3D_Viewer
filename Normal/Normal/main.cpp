@@ -6,10 +6,10 @@
 #include <stdlib.h>
 #include "shape.h"
 #include "move.h"
-#include "DB_ver2.h" //ÀÚÀÛ Çì´õ
+#include "DB_ver2.h" //ìì‘ í—¤ë”
 
 static int s = 20;
-int map[M_W][M_H][M_D] = { '\0', }; //3D °ø°£
+int map[M_W][M_H][M_D] = { '\0', }; //3D ê³µê°„
 SHAPE shape;
 int cubeSize = 20;
 int x, y, z;
@@ -24,12 +24,12 @@ int main() {
 	shape = newShape();
 	x = y = z = 0;
 	//x = 10;
-	for (i = -1 * cubeSize; i <= cubeSize; i++) { //Á¤À°¸éÃ¼ ÀÌµ¿
+	for (i = -1 * cubeSize; i <= cubeSize; i++) { //ì •ìœ¡ë©´ì²´ ì´ë™
 		for (j = -1 * cubeSize; j <= cubeSize; j++) {
 			for (k = -1 * cubeSize; k <= cubeSize; k++) {
 				if ((abs(i) == cubeSize) + (abs(j) == cubeSize) + (abs(k) == cubeSize) > 1) {
 					POS input;
-					input.x = M_W / 2 + i; //0ÀÌ°í  ÃÊ±â°ªÀÌ¶ó¼­ ¾È´õÇØµµ µÊ
+					input.x = M_W / 2 + i; //0ì´ê³   ì´ˆê¸°ê°’ì´ë¼ì„œ ì•ˆë”í•´ë„ ë¨
 					input.y = M_H / 2 + j;
 					input.z = M_D / 2 + k;
 					push(&shape.arr, &input);
@@ -38,12 +38,12 @@ int main() {
 		}
 	}
 	cursor();
-	system("mode con cols=180 lines=50"); //È­¸é Å©±â 
+	system("mode con cols=180 lines=50"); //í™”ë©´ í¬ê¸° 
 	while (1) {
 		SHAPE tmpShape = newShape();
 		SHAPE tmptmpShape = newShape();
 		memset(map, 0, sizeof(map));
-		if (kbhit() != 0) { //Å°º¸µå ÀÔ·Â
+		if (kbhit() != 0) { //í‚¤ë³´ë“œ ì…ë ¥
 			c = getch();
 			switch (c) {
 			case 'a': {
@@ -86,10 +86,19 @@ int main() {
 				ya -= 10;
 				break;
 			}
+			case 'o': {
+				xa += 10; ya += 10;
+				break;
+			}
+			case 'u': {
+				xa -= 10; ya += 10;
+				break;
+			}
 			}
 		}
 		gotoxy(0, 0);
-
+		xa = (xa + 720) % 360;
+		ya = (ya + 720) % 360;
 		for (i = 0; i < shape.arr.cnt; i++) {
 			y_rot(&tmptmpShape.arr, &shape.arr.arr[i], deg2rad(xa), x, y, z);
 			x_rot(&tmpShape.arr, &tmptmpShape.arr.arr[i], deg2rad(ya), x, y, z);
@@ -105,10 +114,10 @@ int main() {
 		}
 
 		printf("(%d %d %d %d %d)", x, y, z, xa, ya);
-		for (i = -1 * M_H / 2; i < M_H / 2; i++) { //Á¦ÀÏ Áß¿äÇÑ ºÎºĞ ½Ã¾ß ±¸Çö
+		for (i = -1 * M_H / 2; i < M_H / 2; i++) { //ì œì¼ ì¤‘ìš”í•œ ë¶€ë¶„ ì‹œì•¼ êµ¬í˜„
 			for (j = -1 * M_W / 2; j < M_W / 2; j++) {
 				for (int k = -1 * M_D / 2; k < M_D / 2; k++) {
-					if (map[M_W / 2 + i][M_W / 2 + j][M_D / 2 + k] == 1 && k > 0) { //k°¡ zÀÌ¸é zero division ¿À·ù
+					if (map[M_W / 2 + i][M_W / 2 + j][M_D / 2 + k] == 1 && k > 0) { //kê°€ zì´ë©´ zero division ì˜¤ë¥˜
 						if ((i)* s / (k) >= -1 * S_W / 2 && (i)* s / (k) < S_W / 2 && (j)* s / (k) >= -1 * S_H / 2 && (j)* s / (k) < S_H / 2) {
 							draw(S_W / 2 + (i)* s / (k), S_H / 2 + (j)* s / (k), "*");
 						}
@@ -116,7 +125,7 @@ int main() {
 				}
 			}
 		}
-		render(); // DBÀÇ ·»´õ¸µ ÇÔ¼ö
-		copy(); // DBÀÇ º¹»ç ÇÔ¼ö
+		render(); // DBì˜ ë Œë”ë§ í•¨ìˆ˜
+		copy(); // DBì˜ ë³µì‚¬ í•¨ìˆ˜
 	}
 }
